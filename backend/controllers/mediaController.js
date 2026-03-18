@@ -8,35 +8,30 @@ import mime from 'mime-types';
 import sharp from 'sharp';
 import Project from '../models/Project.js';
 
-// Helper function to upload to R2 natively from disk temp path
+// Helper function to upload to R2 natively from RAM buffer
 const uploadToR2 = async (file) => {
   let contentType = mime.lookup(file.originalname) || file.mimetype;
+  let fileBuffer = file.buffer;
 
   // Intercept images to aggressively compress and optimize via Sharp
   if (contentType.startsWith('image/') && !contentType.includes('svg') && !contentType.includes('gif')) {
-    const optimizedPath = file.path + '.webp';
-    await sharp(file.path)
+    fileBuffer = await sharp(file.buffer)
       .resize(1920, 1080, { fit: 'inside', withoutEnlargement: true })    
       .webp({ quality: 80, force: true })
-      .toFile(optimizedPath);
+      .toBuffer();
     
-    // Clear out the massive original memory footprint so we don't leak space
-    if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
-    
-    // Remap pointers so the rest of the stream and the caller's cleanup handles the webp
-    file.path = optimizedPath;
+    // Remap pointers
     file.originalname = file.originalname.replace(/\.[^/.]+$/, "") + ".webp";
     file.mimetype = 'image/webp';
     contentType = 'image/webp';
   }
 
-  const fileStream = fs.createReadStream(file.path);
   const fileKey = `${Date.now()}-${file.originalname}`;
 
   const uploadParams = {
     Bucket: process.env.R2_BUCKET,
     Key: fileKey,
-    Body: fileStream,
+    Body: fileBuffer,
     ContentType: contentType,
   };
 
@@ -63,13 +58,11 @@ export const uploadMedia = async (req, res, next) => {
     const thumbFiles = req.files.filter(f => f.fieldname.startsWith('thumbnail_'));
 
     if (!mediaFiles || mediaFiles.length === 0) {
-      req.files.forEach(f => { if (fs.existsSync(f.path)) fs.unlinkSync(f.path); });
       res.status(400);
       throw new Error('No media files uploaded');
     }
 
     if (!projectId || !mediaStage) {
-      req.files.forEach(f => { if (fs.existsSync(f.path)) fs.unlinkSync(f.path); });
       res.status(400);
       throw new Error('projectId and mediaStage are required');
     }
@@ -82,13 +75,11 @@ export const uploadMedia = async (req, res, next) => {
       const isVideo = file.mimetype.startsWith('video/');
       
       if (isImage && file.size > 500 * 1024) {
-        req.files.forEach(f => { if (fs.existsSync(f.path)) fs.unlinkSync(f.path); });
         res.status(400);
         throw new Error(`Image size must be less than 500KB. (${file.originalname} is ${(file.size / 1024).toFixed(1)}KB)`);
       }
       
       if (isVideo && file.size > 100 * 1024 * 1024) {
-        req.files.forEach(f => { if (fs.existsSync(f.path)) fs.unlinkSync(f.path); });
         res.status(400);
         throw new Error(`Video size must be less than 100MB. (${file.originalname} is ${(file.size / (1024 * 1024)).toFixed(1)}MB)`);
       }
@@ -147,9 +138,6 @@ export const uploadMedia = async (req, res, next) => {
 
       } catch (uploadError) {
         console.error("Single File R2 Push Error:", uploadError);
-      } finally {
-        if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
-        if (thumbFile && fs.existsSync(thumbFile.path)) fs.unlinkSync(thumbFile.path);
       }
     }
 
@@ -171,7 +159,6 @@ export const uploadProjectCover = async (req, res, next) => {
 
     const file = req.file;
     if (file.mimetype.startsWith('image/') && file.size > 500 * 1024) {
-      if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
       res.status(400);
       throw new Error(`Image must be less than 500KB. (${(file.size / 1024).toFixed(1)}KB uploaded)`);
     }
@@ -181,8 +168,8 @@ export const uploadProjectCover = async (req, res, next) => {
       // Generate the internal proxy URL natively to bypass strict S3 Auth restrictions
       const proxyUrl = `/api/media/cover/${fileKey}`;
       res.status(201).json({ url: proxyUrl });
-    } finally {
-      if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+    } catch (err) {
+      throw err;
     }
   } catch (error) {
     next(error);

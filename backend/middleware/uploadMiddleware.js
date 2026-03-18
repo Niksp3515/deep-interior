@@ -2,19 +2,8 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-// Store permanently on disk temporarily before pushing to Cloudflare R2
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    if (!fs.existsSync('uploads')) {
-      fs.mkdirSync('uploads', { recursive: true });
-    }
-    cb(null, 'uploads/'); // Ensure this directory exists in the backend root
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
+// Store permanently in RAM dynamically before pushing to Cloudflare R2
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   console.log(`Filtering file: ${file.originalname}, mimetype: ${file.mimetype}`);
