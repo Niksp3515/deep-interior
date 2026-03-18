@@ -127,9 +127,8 @@ export const uploadMedia = async (req, res, next) => {
           mimeType: contentType,
         });
 
-        // Generate the strict Internal Proxy URL mapping natively utilizing the synchronously generated ObjID
-        const BASE_URL = process.env.BASE_URL || 'http://localhost:5000';
-        media.mediaUrl = `${BASE_URL}/api/media/${media._id}/stream`;
+        // Save purely relative URL so frontend getImageUrl properly bridges Vercel to Render
+        media.mediaUrl = `/api/media/${media._id}/stream`;
         
         // Single atomic atomic db commit bypassing initial empty string Mongoose validators
         await media.save();
