@@ -7,9 +7,17 @@ export function cn(...inputs: ClassValue[]) {
 
 export const getImageUrl = (path?: string) => {
   if (!path) return "";
-  if (path.startsWith("http")) return path;
+  
+  let cleanPath = path;
+  // Rescue legacy uploads that got poisoned with hardcoded localhost domains
+  if (cleanPath.startsWith("http://localhost:5000")) {
+    cleanPath = cleanPath.replace("http://localhost:5000", "");
+  } else if (cleanPath.startsWith("http")) {
+    return cleanPath;
+  }
+  
   const apiUrl = import.meta.env.VITE_API_URL || '';
-  return `${apiUrl.replace('/api', '')}${path}`;
+  return `${apiUrl.replace('/api', '')}${cleanPath}`;
 };
 
 export function getThumbnailUrl(key?: string) {
