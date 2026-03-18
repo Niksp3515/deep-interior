@@ -1,0 +1,29 @@
+﻿{
+    "value":  [
+                  {
+                      "_id":  "69ba8388a843bb6f6cb95b31",
+                      "title":  "3BHK Flate",
+                      "location":  "Sargasan, Gandhinagar",
+                      "description":  "Successfully completed a premium 3 BHK flat in Sargasan, Gandhinagar. The project highlights superior construction quality, smart space planning, and fine finishing. Designed to ensure maximum comfort with ample natural light and ventilation, reflecting a high standard of work.",
+                      "coverImage":  "https://my-app-files.9a1a9c638f63b6e1b64249a1bcc7a59a.r2.cloudflarestorage.com/1773831261236-23.webp",
+                      "completionYear":  "09/2025",
+                      "createdAt":  "2026-03-18T10:50:48.927Z",
+                      "updatedAt":  "2026-03-18T10:54:22.996Z",
+                      "__v":  0,
+                      "id":  "69ba8388a843bb6f6cb95b31"
+                  },
+                  {
+                      "_id":  "69b5724c533074f5b19a1c4d",
+                      "title":  "Bunglow",
+                      "location":  "Gandhinagar",
+                      "description":  "The completion of Bunglow",
+                      "coverImage":  "https://res.cloudinary.com/dxhwtw1zn/image/upload/v1773500118/deep_interior/xfsfvyw4xw8lsaks5f0t.jpg",
+                      "completionYear":  "07/2025",
+                      "createdAt":  "2026-03-14T14:35:56.478Z",
+                      "updatedAt":  "2026-03-14T14:55:17.094Z",
+                      "__v":  0,
+                      "id":  "69b5724c533074f5b19a1c4d"
+                  }
+              ],
+    "Count":  2
+}
