@@ -9,6 +9,10 @@ export default function AdminLayout() {
 
   useEffect(() => {
     const verifyAuth = async () => {
+      if (!localStorage.getItem("adminInfo")) {
+        setIsAuthenticated(false);
+        return;
+      }
       try {
         await checkAuthStatus();
         setIsAuthenticated(true);
