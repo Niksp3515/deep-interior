@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logoIcon from "@/assets/icon.png";
 import { Instagram, Facebook } from "lucide-react";
 
 export default function Footer() {
@@ -8,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="md:col-span-2">
             <div className="flex items-center gap-4 mb-4">
-              <img src="/src/assets/icon.png" alt="Deep Interior Logo" className="h-10 md:h-12 w-auto object-contain" />
+              <img src={logoIcon} alt="Deep Interior Logo" className="h-10 md:h-12 w-auto object-contain" />
               <h3 className="font-display text-3xl md:text-4xl tracking-display text-foreground">
                 Deep Interior
               </h3>
