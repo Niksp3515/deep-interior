@@ -3,9 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    
+    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://deep-interior.onrender.com" crossorigin>
+    <link rel="dns-prefetch" href="https://deep-interior.onrender.com">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"></noscript>
+    
+    <!-- Aggressive Preload of Critical API Payloads before React boots -->
+    <link rel="preload" href="https://deep-interior.onrender.com/api/projects" as="fetch" crossorigin="anonymous">
+    
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>Deep Interior - Best Interior Designer in Ahmedabad & Gujarat</title>
     <meta name="description" content="Looking for the best interior designer in Ahmedabad? Deep Interior provides luxury residential and commercial interior design in Sola, Science City, and across Gujarat." />

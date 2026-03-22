@@ -71,32 +71,39 @@ export default function HomePage() {
       <section className="relative h-screen flex items-end overflow-hidden">
         <img
           src={heroImg}
-          alt="Elegant interior design"
+          alt="Deep Interior - Luxury interior design and architecture in Ahmedabad"
           className="absolute inset-0 w-full h-full object-cover"
+          fetchPriority="high"
+          loading="eager"
+          decoding="sync"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-foreground/10 to-transparent" />
+        {/* Soft bottom gradient to protect text contrast without dulling the entire image */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        
         <div className="relative container mx-auto px-6 pb-24">
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.2, 0, 0, 1] }}
+            className="max-w-4xl"
           >
-            <h1 className="font-display text-5xl md:text-8xl tracking-display leading-[0.9] text-primary-foreground max-w-4xl">
-              The Best Interior Designer in Ahmedabad & Gujarat
+            <h1 className="font-display text-4xl md:text-6xl lg:text-[76px] font-[600] tracking-tight leading-[1.05] text-[#ffffff] drop-shadow-sm">
+              Spaces That Speak Before You Do
             </h1>
-            <p className="text-primary-foreground/70 text-lg md:text-xl mt-6 max-w-lg leading-relaxed">
-              Deep Interior — Crafting luxury home interiors, modern workspaces, and bespoke architecture in Sola, Science City, and beyond.
+            <p className="text-[#eaeaea] text-lg md:text-[20px] mt-6 max-w-2xl leading-[1.6] font-[300] drop-shadow-md">
+              Deep Interior — where design becomes emotion, and every space is shaped to feel bold, timeless, and unmistakably yours.
             </p>
-            <div className="flex gap-4 mt-10">
+            
+            <div className="flex flex-wrap gap-4 mt-10">
               <Link
                 to="/portfolio"
-                className="px-8 py-3.5 rounded-xl bg-primary-foreground text-foreground text-sm font-medium transition-brand hover:scale-[0.98]"
+                className="px-8 py-4 rounded-xl bg-white text-slate-900 text-[15px] font-[500] transition-all hover:bg-white/90 shadow-sm"
               >
                 View Portfolio
               </Link>
               <Link
                 to="/contact"
-                className="px-8 py-3.5 rounded-xl ring-1 ring-inset ring-primary-foreground/30 text-primary-foreground text-sm transition-brand hover:ring-primary-foreground/60"
+                className="px-8 py-4 rounded-xl border border-white/20 text-white text-[15px] font-[500] backdrop-blur-sm transition-all hover:bg-white/10"
               >
                 Get in Touch
               </Link>
@@ -120,8 +127,8 @@ export default function HomePage() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mt-14">
-            {roomCategories.filter(cat => cat !== "Dining Area").map((cat, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-14">
+            {roomCategories.filter(cat => cat !== "Dining Area" && cat !== "Bathroom").map((cat, i) => (
               <motion.div
                 key={cat}
                 initial={{ opacity: 0, y: 16 }}
@@ -132,8 +139,9 @@ export default function HomePage() {
                 <Link to={`/category/${cat}`} className="group relative block aspect-[3/4] rounded-2xl overflow-hidden bg-muted cursor-pointer">
                   <img
                     src={categoryImages[cat]}
-                    alt={cat}
+                    alt={`Luxury ${cat} interior design and architecture tailored for modern homes in Gujarat`}
                     loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 to-transparent" />
@@ -189,7 +197,7 @@ export default function HomePage() {
                     <div className={`relative overflow-hidden rounded-2xl bg-muted ${displayProjects.length === 1 ? "aspect-video" : "aspect-[4/3]"}`}>
                       <img
                         src={getImageUrl(project.coverImage)}
-                        alt={project.title}
+                        alt={`Premium interior design project: ${project.title} by Deep Interior`}
                         loading="lazy"
                         decoding="async"
                         onError={(e) => { e.currentTarget.style.display = "none" }}

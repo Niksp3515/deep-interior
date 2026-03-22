@@ -21,6 +21,98 @@ const getFileType = (url: string, dbType: string) => {
   return dbType;
 };
 
+const MediaGridCard = ({ media, idx, mediaArray, setLightbox, tagText, fallbackCoverImage }: any) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const fileType = getFileType(media.mediaUrl, media.mediaType);
+
+  return (
+    <div 
+      className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted cursor-pointer bg-black"
+      onMouseEnter={() => setIsHovered(true)}
+      onClick={() => setLightbox({ isOpen: true, media: mediaArray, startIndex: idx })}
+    >
+      <div className="absolute inset-0 z-20" onContextMenu={(e) => e.preventDefault()} draggable={false} />
+      
+      {/* Super-fast hover preloading trick to silently fetch the Lightbox video stream ahead of time */}
+      {isHovered && fileType === "video" && (
+        <link rel="preload" as="fetch" href={getImageUrl(media.mediaUrl)} />
+      )}
+      
+      {fileType === "video" ? (
+        <>
+          {media.thumbnailKey ? (
+            <img 
+              src={getThumbnailUrl(media.thumbnailKey)} 
+              alt="Video preview" 
+              className="absolute inset-0 w-full h-full object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-105" 
+              loading="lazy" 
+              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            />
+          ) : (
+            <VideoThumbnailFallback 
+              src={getImageUrl(media.mediaUrl)} 
+              className="absolute inset-0 w-full h-full object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-105" 
+              originalFileName={media.originalFileName} 
+            />
+          )}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+            <Play className="w-12 h-12 text-white drop-shadow-lg ml-1 transition-transform duration-500 group-hover:scale-110" fill="currentColor" />
+          </div>
+          <div className="absolute top-4 left-4 z-10">
+            <span className={`text-[10px] uppercase tracking-widest px-3 py-1 rounded-full ${tagText === 'Completed' ? 'bg-primary/90 text-primary-foreground' : 'bg-accent/90 text-accent-foreground'}`}>
+              {tagText}
+            </span>
+          </div>
+        </>
+      ) : fileType === "document" ? (
+        <div className="w-full h-full flex flex-col items-center justify-center bg-card border border-border">
+          <FileText className="w-12 h-12 text-muted-foreground mb-3 flex-shrink-0" />
+          <span className="text-sm font-medium text-foreground text-center truncate w-full px-6" title={media.originalFileName || media.mediaUrl.split('/').pop()}>
+            {media.originalFileName || media.mediaUrl.split('/').pop()}
+          </span>
+          <span className="mt-2 text-xs text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Layers className="w-3 h-3" /> Open Secure Viewer
+          </span>
+          <div className="absolute top-4 left-4 z-10">
+            <span className={`text-[10px] uppercase tracking-widest px-3 py-1 rounded-full ${tagText === 'Completed' ? 'bg-primary/90 text-primary-foreground' : 'bg-accent/90 text-accent-foreground'}`}>
+              {tagText}
+            </span>
+          </div>
+        </div>
+      ) : (
+        <>
+          <img
+            src={getImageUrl(media.mediaUrl)}
+            alt={media.caption || tagText}
+            loading="lazy"
+            decoding="async"
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+            onError={(e) => { e.currentTarget.src = "/placeholder.jpg"; }}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 select-none"
+          />
+          {media.caption && (
+            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-foreground/60 to-transparent flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-400">
+              <p className="text-primary-foreground text-sm">{media.caption}</p>
+              <Maximize2 className="w-5 h-5 text-white/70" />
+            </div>
+          )}
+          {!media.caption && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none">
+              <Maximize2 className="w-8 h-8 text-white" />
+            </div>
+          )}
+          <div className="absolute top-4 left-4 z-10">
+            <span className={`text-[10px] uppercase tracking-widest px-3 py-1 rounded-full ${tagText === 'Completed' ? 'bg-primary/90 text-primary-foreground' : 'bg-accent/90 text-accent-foreground'}`}>
+              {tagText}
+            </span>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
 export default function ProjectDetailPage() {
   const { id } = useParams();
   
@@ -199,68 +291,17 @@ export default function ProjectDetailPage() {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {renders.map((media: any, idx: number) => {
-                    const fileType = getFileType(media.mediaUrl, media.mediaType);
-                    return (
-                    <div 
+                  {renders.map((media: any, idx: number) => (
+                    <MediaGridCard 
                       key={media._id} 
-                      className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted cursor-pointer bg-black"
-                      onClick={() => setLightbox({ isOpen: true, media: renders, startIndex: idx })}
-                    >
-                      {/* Global Security Overlay trapping right clicks securely blocking physical highlighting */}
-                      <div className="absolute inset-0 z-20" onContextMenu={(e) => e.preventDefault()} draggable={false} />
-                      {fileType === "video" ? (
-                        <>
-                          {media.thumbnailKey ? (
-                            <img src={getThumbnailUrl(media.thumbnailKey)} alt="Video thumbnail" className="absolute inset-0 w-full h-full object-cover opacity-80" loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                          ) : (
-                            <img src="/placeholder.jpg" alt="Video placeholder" className="absolute inset-0 w-full h-full object-cover opacity-80" loading="lazy" />
-                          )}
-                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                            <Play className="w-12 h-12 text-white drop-shadow-lg ml-1 transition-transform duration-500 group-hover:scale-110" fill="currentColor" />
-                          </div>
-                        </>
-                      ) : fileType === "document" ? (
-                        <div className="w-full h-full flex flex-col items-center justify-center bg-card border border-border">
-                          <FileText className="w-12 h-12 text-muted-foreground mb-3 flex-shrink-0" />
-                          <span className="text-sm font-medium text-foreground text-center truncate w-full px-6" title={media.originalFileName || media.mediaUrl.split('/').pop()}>
-                            {media.originalFileName || media.mediaUrl.split('/').pop()}
-                          </span>
-                          <span className="mt-2 text-xs text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Layers className="w-3 h-3" /> Open Secure Viewer
-                          </span>
-                        </div>
-                      ) : (
-                        <img
-                          src={getImageUrl(media.mediaUrl)}
-                          alt={media.caption || "3D render"}
-                          loading="lazy"
-                          decoding="async"
-                          draggable={false}
-                          onContextMenu={(e) => e.preventDefault()}
-                          onError={(e) => { e.currentTarget.src = "/placeholder.jpg"; }}
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 select-none"
-                        />
-                      )}
-                      
-                      {/* Interaction overlays */}
-                      {media.caption && fileType !== 'document' ? (
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-foreground/60 to-transparent flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-400">
-                          <p className="text-primary-foreground text-sm">{media.caption}</p>
-                          <Maximize2 className="w-5 h-5 text-white/70" />
-                        </div>
-                      ) : fileType !== 'document' ? (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none">
-                          <Maximize2 className="w-8 h-8 text-white" />
-                        </div>
-                      ) : null}
-                      <div className="absolute top-4 left-4">
-                        <span className="text-[10px] uppercase tracking-widest bg-accent/90 text-accent-foreground px-3 py-1 rounded-full">
-                          3D Render
-                        </span>
-                      </div>
-                    </div>
-                  )})}
+                      media={media} 
+                      idx={idx} 
+                      mediaArray={renders} 
+                      setLightbox={setLightbox} 
+                      tagText="3D Render"
+                      fallbackCoverImage={getImageUrl(project.coverImage)} 
+                    />
+                  ))}
                 </div>
               </section>
             )}
@@ -280,68 +321,17 @@ export default function ProjectDetailPage() {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {realPhotos.map((media: any, idx: number) => {
-                    const fileType = getFileType(media.mediaUrl, media.mediaType);
-                    return (
-                    <div 
+                  {realPhotos.map((media: any, idx: number) => (
+                    <MediaGridCard 
                       key={media._id} 
-                      className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted cursor-pointer bg-black"
-                      onClick={() => setLightbox({ isOpen: true, media: realPhotos, startIndex: idx })}
-                    >
-                      {/* Global Security Overlay trapping right clicks securely blocking physical highlighting */}
-                      <div className="absolute inset-0 z-20" onContextMenu={(e) => e.preventDefault()} draggable={false} />
-                      {fileType === "video" ? (
-                        <>
-                          {media.thumbnailKey ? (
-                            <img src={getThumbnailUrl(media.thumbnailKey)} alt="Video thumbnail" className="absolute inset-0 w-full h-full object-cover opacity-80" loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                          ) : (
-                            <VideoThumbnailFallback src={getImageUrl(media.mediaUrl)} className="absolute inset-0 w-full h-full object-cover opacity-80" originalFileName={media.originalFileName} />
-                          )}
-                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                            <Play className="w-12 h-12 text-white drop-shadow-lg ml-1 transition-transform duration-500 group-hover:scale-110" fill="currentColor" />
-                          </div>
-                        </>
-                      ) : fileType === "document" ? (
-                        <div className="w-full h-full flex flex-col items-center justify-center bg-card border border-border">
-                          <FileText className="w-12 h-12 text-muted-foreground mb-3 flex-shrink-0" />
-                          <span className="text-sm font-medium text-foreground text-center truncate w-full px-6" title={media.originalFileName || media.mediaUrl.split('/').pop()}>
-                            {media.originalFileName || media.mediaUrl.split('/').pop()}
-                          </span>
-                          <span className="mt-2 text-xs text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Layers className="w-3 h-3" /> Open Secure Viewer
-                          </span>
-                        </div>
-                      ) : (
-                        <img
-                          src={getImageUrl(media.mediaUrl)}
-                          alt={media.caption || "Completed project"}
-                          loading="lazy"
-                          decoding="async"
-                          draggable={false}
-                          onContextMenu={(e) => e.preventDefault()}
-                          onError={(e) => { e.currentTarget.src = "/placeholder.jpg"; }}
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 select-none"
-                        />
-                      )}
-                      
-                      {/* Interaction overlays */}
-                      {media.caption && fileType !== 'document' ? (
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-foreground/60 to-transparent flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-400">
-                          <p className="text-primary-foreground text-sm">{media.caption}</p>
-                          <Maximize2 className="w-5 h-5 text-white/70" />
-                        </div>
-                      ) : fileType !== 'document' ? (
-                         <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none">
-                          <Maximize2 className="w-8 h-8 text-white" />
-                        </div>
-                      ) : null}
-                      <div className="absolute top-4 left-4">
-                        <span className="text-[10px] uppercase tracking-widest bg-primary/90 text-primary-foreground px-3 py-1 rounded-full">
-                          Completed
-                        </span>
-                      </div>
-                    </div>
-                  )})}
+                      media={media} 
+                      idx={idx} 
+                      mediaArray={realPhotos} 
+                      setLightbox={setLightbox} 
+                      tagText="Completed"
+                      fallbackCoverImage={getImageUrl(project.coverImage)}
+                    />
+                  ))}
                 </div>
               </section>
             )}

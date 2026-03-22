@@ -10,11 +10,13 @@ import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import { useSecurityOptions } from "./hooks/useSecurityOptions";
+import HomePage from "./pages/HomePage";
 
-const HomePage = lazy(() => import("./pages/HomePage"));
+// Lazily load non-critical routes to optimize main bundle size
 const PortfolioPage = lazy(() => import("./pages/PortfolioPage"));
 const ProjectDetailPage = lazy(() => import("./pages/ProjectDetailPage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
+const ServicePage = lazy(() => import("./pages/ServicePage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -51,6 +53,7 @@ const App = () => {
             <Route path="/portfolio" element={<PortfolioPage />} />
             <Route path="/project/:id" element={<ProjectDetailPage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/services" element={<ServicePage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/category/:categoryName" element={<CategoryPage />} />
             <Route path="/admin/login" element={<AdminLogin />} />
