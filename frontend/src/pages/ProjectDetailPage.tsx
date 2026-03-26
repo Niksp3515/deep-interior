@@ -29,7 +29,11 @@ const MediaGridCard = ({ media, idx, mediaArray, setLightbox, tagText, fallbackC
     <div 
       className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted cursor-pointer bg-black"
       onMouseEnter={() => setIsHovered(true)}
-      onClick={() => setLightbox({ isOpen: true, media: mediaArray, startIndex: idx })}
+      onClick={() => {
+        if (fileType !== "document") {
+          setLightbox({ isOpen: true, media: mediaArray, startIndex: idx });
+        }
+      }}
     >
       <div className="absolute inset-0 z-20" onContextMenu={(e) => e.preventDefault()} draggable={false} />
       
@@ -43,7 +47,7 @@ const MediaGridCard = ({ media, idx, mediaArray, setLightbox, tagText, fallbackC
           {media.thumbnailKey ? (
             <img 
               src={getThumbnailUrl(media.thumbnailKey)} 
-              alt="Video preview" 
+              alt={media.caption || "Property video preview in Ahmedabad"} 
               className="absolute inset-0 w-full h-full object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-105" 
               loading="lazy" 
               onError={(e) => { e.currentTarget.style.display = 'none'; }}
@@ -65,25 +69,31 @@ const MediaGridCard = ({ media, idx, mediaArray, setLightbox, tagText, fallbackC
           </div>
         </>
       ) : fileType === "document" ? (
-        <div className="w-full h-full flex flex-col items-center justify-center bg-card border border-border">
+        <a 
+          href={getImageUrl(media.mediaUrl)} 
+          download={media.originalFileName || media.mediaUrl.split('/').pop()} 
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative z-30 w-full h-full flex flex-col items-center justify-center bg-card border border-border"
+        >
           <FileText className="w-12 h-12 text-muted-foreground mb-3 flex-shrink-0" />
           <span className="text-sm font-medium text-foreground text-center truncate w-full px-6" title={media.originalFileName || media.mediaUrl.split('/').pop()}>
             {media.originalFileName || media.mediaUrl.split('/').pop()}
           </span>
           <span className="mt-2 text-xs text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-            <Layers className="w-3 h-3" /> Open Secure Viewer
+            <Layers className="w-3 h-3" /> Download PDF
           </span>
           <div className="absolute top-4 left-4 z-10">
             <span className={`text-[10px] uppercase tracking-widest px-3 py-1 rounded-full ${tagText === 'Completed' ? 'bg-primary/90 text-primary-foreground' : 'bg-accent/90 text-accent-foreground'}`}>
               {tagText}
             </span>
           </div>
-        </div>
+        </a>
       ) : (
         <>
           <img
             src={getImageUrl(media.mediaUrl)}
-            alt={media.caption || tagText}
+            alt={media.caption || `${tagText} interior design in Ahmedabad`}
             loading="lazy"
             decoding="async"
             draggable={false}
@@ -200,7 +210,7 @@ export default function ProjectDetailPage() {
       <div className="relative h-[60vh] overflow-hidden">
         <img
           src={getImageUrl(project.coverImage)}
-          alt={project.title}
+          alt={`${project.title} interior design in ${project.location}, Ahmedabad`}
           onError={(e) => { e.currentTarget.style.display = "none" }}
           className="absolute inset-0 w-full h-full object-cover"
         />

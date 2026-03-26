@@ -51,10 +51,18 @@ Please contact me as soon as possible.`;
   return (
     <main className="pt-24 pb-24">
       <SEO 
-        title="Contact Deep Interior | Top Interior Design Services Ahmedabad & Gujarat"
-        description="Get in touch with Deep Interior, the best interior designer in Ahmedabad, for luxury residential interior design, modular kitchens, and office renovations in Sola, Science City, and across Gujarat."
+        title="Contact Deep Interior — Interior Designer in Ahmedabad"
+        description="Get in touch with Deep Interior for interior design consultations and furniture projects in Ahmedabad, Surat, Vadodara, and Gujarat."
         keywords="contact best interior designer Ahmedabad, luxury interior design consultation, home renovation quotes Gujarat, office interior designers Sola"
-        url="https://deepinterior.com/contact"
+        url="https://deep-interior.vercel.app/contact"
+        schema={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://deep-interior.vercel.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Contact", "item": "https://deep-interior.vercel.app/contact"}
+          ]
+        })}
       />
       <div className="container mx-auto px-6 max-w-3xl">
         <motion.div
@@ -63,8 +71,8 @@ Please contact me as soon as possible.`;
           transition={{ duration: 0.6, ease: [0.2, 0, 0, 1] }}
         >
           <p className="text-xs uppercase tracking-widest text-muted-foreground">Contact</p>
-          <h1 className="font-display text-4xl md:text-6xl tracking-display text-foreground mt-3">
-            Get in Touch
+          <h1 className="font-display text-5xl md:text-7xl tracking-display text-foreground mt-4 leading-[0.95] max-w-2xl">
+            Get a Free Design Consultation in Ahmedabad
           </h1>
 
           <div className="flex flex-col gap-4 mt-8">
@@ -81,7 +89,7 @@ Please contact me as soon as possible.`;
               className="flex items-start gap-3 text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" /> 
-              <span>G.F-18, Shukan Mall 1, Near Panchamrut Bunglow, Science City Rd, Sola, Ahmedabad – 380060, Gujarat, India</span>
+              <span>G.F-18, Shukan Mall 1, Near Panchamrut Bungalow, Science City Rd, Sola, Ahmedabad – 380060, Gujarat, India</span>
             </a>
           </div>
 

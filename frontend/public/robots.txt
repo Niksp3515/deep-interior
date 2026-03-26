@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 Disallow: /admin
-Disallow: /admin/*
-
-Sitemap: https://deepinterior.com/sitemap.xml
+Sitemap: https://deep-interior.vercel.app/sitemap.xml

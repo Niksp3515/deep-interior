@@ -9,20 +9,23 @@ export const getImageUrl = (path?: string) => {
   if (!path) return "";
   
   let cleanPath = path;
-  // Rescue legacy uploads that got poisoned with hardcoded localhost domains
-  if (cleanPath.startsWith("http://localhost:5000")) {
-    cleanPath = cleanPath.replace("http://localhost:5000", "");
-  } else if (cleanPath.startsWith("http")) {
+  if (cleanPath.startsWith("http")) return cleanPath;
+  
+  const apiUrl = import.meta.env.VITE_API_URL;
+  if (!apiUrl) {
+    console.warn("VITE_API_URL is missing in environment variables!");
     return cleanPath;
   }
-  
-  const apiUrl = import.meta.env.VITE_API_URL || '';
   return `${apiUrl.replace('/api', '')}${cleanPath}`;
 };
 
 export function getThumbnailUrl(key?: string) {
   if (!key) return undefined;
-  const baseUrl = import.meta.env.VITE_API_URL || '/api';
+  const baseUrl = import.meta.env.VITE_API_URL;
+  if (!baseUrl) {
+    console.warn("VITE_API_URL is missing in environment variables!");
+    return `/media/cover/${key}`;
+  }
   return `${baseUrl}/media/cover/${key}`;
 }
 

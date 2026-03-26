@@ -33,7 +33,49 @@ app.use(compression());
 
 // Set security headers ensuring images can be loaded cross-origin
 app.use(helmet({
-  crossOriginResourcePolicy: false,
+  crossOriginResourcePolicy: false, // Required for cross-origin image loads if serving them directly
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
+  },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: [
+        "'self'", 
+        "data:", 
+        "https://res.cloudinary.com", 
+        "https://*.r2.dev", 
+        "https://pub-*.r2.dev",
+        "https://lh3.googleusercontent.com" // For Google Review avatars
+      ],
+      mediaSrc: [
+        "'self'", 
+        "data:", 
+        "https://res.cloudinary.com", 
+        "https://*.r2.dev", 
+        "https://pub-*.r2.dev"
+      ],
+      connectSrc: [
+        "'self'", 
+        "https://deep-interior.vercel.app", 
+        "http://localhost:5173", 
+        "http://localhost:8080"
+      ],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://www.googletagmanager.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+      frameSrc: ["'self'", "https://www.google.com/maps/", "https://maps.google.com/"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  },
+  frameguard: false,
+  referrerPolicy: {
+    policy: 'strict-origin-when-cross-origin',
+  },
+  xContentTypeOptions: true,
 }));
 
 // Body parser with tight size limit
@@ -69,11 +111,14 @@ app.use('/api', apiLimiter);
 // Enable CORS securely
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL || 'http://localhost:5173', 
+    'https://deep-interior.vercel.app',
     'http://localhost:5173',
     'http://localhost:8080',
-    'https://deep-interior.vercel.app',
-    'http://127.0.0.1:8080'
+    'http://127.0.0.1:8080',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost:3001',
+    'http://127.0.0.1:3001'
   ],
   credentials: true,
 }));

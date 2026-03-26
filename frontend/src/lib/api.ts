@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 // Debug Environment Initialization
-console.log("API URL:", import.meta.env.VITE_API_URL);
+// API URL configuration
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true, // Crucial for sending/receiving HttpOnly cookies
 });
 
@@ -28,7 +28,7 @@ api.interceptors.response.use(
 
 export const fetchProjects = async (location?: string) => {
   const url = location ? `/projects?location=${location}` : '/projects';
-  const { data } = await axios.get(`${import.meta.env.VITE_API_URL}${url}`, { withCredentials: true });
+  const { data } = await api.get(url);
   return data;
 };
 

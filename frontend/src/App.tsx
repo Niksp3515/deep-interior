@@ -9,6 +9,7 @@ import { Loader2 } from 'lucide-react';
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 import ScrollToTop from "./components/ScrollToTop";
+import CookieBanner from "./components/CookieBanner";
 import { useSecurityOptions } from "./hooks/useSecurityOptions";
 import HomePage from "./pages/HomePage";
 
@@ -19,6 +20,8 @@ const AboutPage = lazy(() => import("./pages/AboutPage"));
 const ServicePage = lazy(() => import("./pages/ServicePage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
+const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const TermsPage = lazy(() => import("./pages/TermsPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
@@ -56,6 +59,8 @@ const App = () => {
             <Route path="/services" element={<ServicePage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/category/:categoryName" element={<CategoryPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
@@ -65,6 +70,7 @@ const App = () => {
           </Routes>
         </Suspense>
         <Footer />
+        <CookieBanner />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

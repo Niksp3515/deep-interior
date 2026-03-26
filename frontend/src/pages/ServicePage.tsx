@@ -6,10 +6,17 @@ export default function ServicePage() {
   return (
     <main className="pt-24 pb-24">
       <SEO 
-        title="Our Services | Deep Interior"
-        description="Comprehensive architectural planning, premium interior execution, and turnkey solutions by Deep Interior in Ahmedabad."
-        keywords="interior services, architecture Ahmedabad, turnkey solutions, residential design, commercial interiors"
-        url="https://deepinterior.com/services"
+        title="Interior Design Services in Ahmedabad | Deep Interior"
+        description="We offer full-service interior design including modular kitchens, custom furniture, living room design, bedroom interiors, and commercial spaces in Ahmedabad and Gujarat."
+        url="https://deep-interior.vercel.app/services"
+        schema={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://deep-interior.vercel.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://deep-interior.vercel.app/services"}
+          ]
+        })}
       />
       <div className="container mx-auto px-6 max-w-4xl">
         <motion.div
@@ -19,8 +26,8 @@ export default function ServicePage() {
           className="w-full max-w-7xl mx-auto"
         >
           <div className="text-center max-w-3xl mx-auto mb-20 mt-10">
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight font-[500] text-slate-900 leading-[1.1] mb-6">
-              Our Interior Design Services
+            <h1 className="font-display text-5xl md:text-7xl tracking-display text-foreground mt-4 leading-[0.95]">
+              Interior Design Services in Ahmedabad & Gujarat
             </h1>
             <p className="text-lg md:text-xl text-slate-500 font-[300] leading-relaxed">
               Thoughtfully designed solutions tailored for modern living and working spaces.

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import heroImg from "@/assets/hero-living.jpg";
+import heroImg from "@/assets/hero-living.webp";
 import { projects, roomCategories } from "@/lib/data";
 import { Star, MapPin, Calendar, ArrowRight, Loader2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
@@ -8,11 +8,11 @@ import { fetchProjects, fetchGoogleReviews } from "@/lib/api";
 import SEO from "@/components/SEO";
 import { getImageUrl } from "@/lib/utils";
 
-import livingImg from "@/assets/design-living.jpg";
-import kitchenImg from "@/assets/design-kitchen.jpg";
-import bedroomImg from "@/assets/design-bedroom.jpg";
-import bathroomImg from "@/assets/design-bathroom.jpg";
-import officeImg from "@/assets/design-office.jpg";
+import livingImg from "@/assets/design-living.webp";
+import kitchenImg from "@/assets/design-kitchen.webp";
+import bedroomImg from "@/assets/design-bedroom.webp";
+import bathroomImg from "@/assets/design-bathroom.webp";
+import officeImg from "@/assets/design-office.webp";
 
 const categoryImages: Record<string, string> = {
   "Living Room": livingImg,
@@ -40,45 +40,129 @@ export default function HomePage() {
 
   const displayProjects = dynamicProjects ? dynamicProjects.slice(0, 3) : [];
 
-  process.env.NODE_ENV === "development" && console.log("Projects:", displayProjects);
+  // Development logs removed
 
   return (
-    <main>
+    <main id="main-content">
       <SEO 
-        title="Best Interior Designer in Ahmedabad | Luxury Home Interiors | Deep Interior"
-        description="Deep Interior is the best interior designer in Ahmedabad, offering luxury residential interior design, modular kitchens, and turnkey architecture in Sola, Science City, and Gujarat."
-        keywords="best interior designer in Ahmedabad, interior designer in Gujarat, home interior designer Ahmedabad, luxury interior designer Gujarat, bedroom interior design Ahmedabad, office interior design Ahmedabad, modern home interiors Gujarat"
-        schema={JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "LocalBusiness",
-          "name": "Deep Interior",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "G.F-18, Shukan Mall 1, Science City Rd, Sola",
-            "addressLocality": "Ahmedabad",
-            "postalCode": "380060",
-            "addressRegion": "Gujarat",
-            "addressCountry": "IN"
+        title="Best Interior Designer in Ahmedabad | Deep Interior"
+        description="Deep Interior offers premium residential and commercial interior design services in Ahmedabad, Gandhinagar, Surat, and across Gujarat. Custom furniture, modular kitchens, false ceilings, and complete turnkey interiors."
+        keywords="interior designer in Ahmedabad, interior design Ahmedabad, best interior designer Gujarat, modular kitchen Ahmedabad, furniture designer Ahmedabad, residential interior design Gujarat, commercial interior design Ahmedabad, false ceiling design Ahmedabad, turnkey interior Ahmedabad, home interior Gujarat"
+        schema={JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
+            "name": "Deep Interior",
+            "description": "Deep Interior is a premium interior design studio in Ahmedabad offering residential interior design, commercial interior design, modular kitchens, false ceiling, and full turnkey interior projects across Gujarat.",
+            "url": "https://deep-interior.vercel.app",
+            "logo": "https://deep-interior.vercel.app/01-01.webp",
+            "image": "https://deep-interior.vercel.app/og-image.jpg",
+            "telephone": "+91-9879624474",
+            "email": "deepinterior74@gmail.com",
+            "priceRange": "₹₹–₹₹₹",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "G.F-18, Shukan Mall 1, Science City Rd, Sola",
+              "addressLocality": "Ahmedabad",
+              "addressRegion": "Gujarat",
+              "postalCode": "380060",
+              "addressCountry": "IN"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": "23.0722",
+              "longitude": "72.5164"
+            },
+            "areaServed": [
+              "Ahmedabad", "Gandhinagar", "Surat", "Vadodara", "Rajkot", "Gujarat"
+            ],
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Interior Design Services",
+              "itemListElement": [
+                {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Residential Interior Design in Ahmedabad"}},
+                {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Commercial Interior Design in Ahmedabad"}},
+                {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Modular Kitchen Design Ahmedabad"}},
+                {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "False Ceiling Design Ahmedabad"}},
+                {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Office Interior Design Gujarat"}},
+                {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Turnkey Interior Projects Ahmedabad"}}
+              ]
+            },
+            "openingHours": "Mo-Sa 09:30-19:00",
+            "sameAs": [
+              "https://www.instagram.com/interiordeep",
+              "https://www.facebook.com/share/1B3UALzH4S/"
+            ]
           },
-          "telephone": "+919879624474",
-          "email": "deepinterior74@gmail.com",
-          "url": "https://deepinterior.com",
-          "description": "Deep Interior is the top interior designer in Ahmedabad offering luxury residential interior design, office spaces, and turnkey architecture in Sola, Science City, and across Gujarat."
-        })}
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What interior design services does Deep Interior offer in Ahmedabad?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Deep Interior offers complete residential and commercial interior design services in Ahmedabad including living room design, bedroom interiors, modular kitchens, false ceiling, wallpaper, office interiors, and full turnkey interior projects across Gujarat."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How much does interior design cost in Ahmedabad?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Interior design costs in Ahmedabad typically range from ₹800 to ₹3,000 per sq ft depending on the scope, materials, and finishes chosen. Deep Interior offers packages for all budgets — contact us for a free consultation and quote."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does Deep Interior work across all areas of Ahmedabad?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, Deep Interior serves all major areas of Ahmedabad including Bopal, South Bopal, Prahlad Nagar, Satellite, Thaltej, SG Highway, Bodakdev, Vastrapur, Gota, Chandkheda, Navrangpura, Maninagar, Nikol, and surrounding areas."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does Deep Interior take projects outside Ahmedabad in Gujarat?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, we take on interior design projects across Gujarat including Gandhinagar, Surat, Vadodara, and Rajkot. Contact us to discuss your project location."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How long does a complete home interior design project take in Ahmedabad?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "A typical 2BHK or 3BHK home interior project in Ahmedabad takes 45 to 90 days from design approval to handover, depending on the scope and material availability. Deep Interior provides a clear timeline before work begins."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does Deep Interior provide modular kitchen design in Ahmedabad?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, modular kitchen design and installation is one of our core services in Ahmedabad. We offer L-shaped, U-shaped, parallel, and island kitchen designs with a choice of finishes, shutters, and hardware to suit your budget."
+                }
+              }
+            ]
+          }
+        ])}
       />
       
       {/* Hero */}
       <section className="relative h-screen flex items-end overflow-hidden">
         <img
           src={heroImg}
-          alt="Deep Interior - Luxury interior design and architecture in Ahmedabad"
+          alt="Luxury residential properties in Ahmedabad Gujarat"
           className="absolute inset-0 w-full h-full object-cover"
           fetchPriority="high"
           loading="eager"
           decoding="sync"
         />
-        {/* Soft bottom gradient to protect text contrast without dulling the entire image */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        {/* Bottom gradient to protect text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
         
         <div className="relative container mx-auto px-6 pb-24">
           <motion.div
@@ -88,10 +172,10 @@ export default function HomePage() {
             className="max-w-4xl"
           >
             <h1 className="font-display text-4xl md:text-6xl lg:text-[76px] font-[600] tracking-tight leading-[1.05] text-[#ffffff] drop-shadow-sm">
-              Spaces That Speak Before You Do
+              Interior Designer in Ahmedabad — Transform Your Space
             </h1>
             <p className="text-[#eaeaea] text-lg md:text-[20px] mt-6 max-w-2xl leading-[1.6] font-[300] drop-shadow-md">
-              Deep Interior — where design becomes emotion, and every space is shaped to feel bold, timeless, and unmistakably yours.
+              Crafting beautiful homes and spaces across Gujarat.
             </p>
             
             <div className="flex flex-wrap gap-4 mt-10">
@@ -139,7 +223,7 @@ export default function HomePage() {
                 <Link to={`/category/${cat}`} className="group relative block aspect-[3/4] rounded-2xl overflow-hidden bg-muted cursor-pointer">
                   <img
                     src={categoryImages[cat]}
-                    alt={`Luxury ${cat} interior design and architecture tailored for modern homes in Gujarat`}
+                    alt={`${cat} for sale in Ahmedabad, Gujarat`}
                     loading="lazy"
                     decoding="async"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
@@ -161,7 +245,7 @@ export default function HomePage() {
           <div className="flex items-end justify-between mb-14">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Portfolio</p>
-              <h2 className="font-display text-4xl md:text-6xl tracking-display text-foreground mt-3">
+              <h2 className="font-display text-5xl md:text-6xl tracking-display text-foreground mt-3">
                 Featured Projects
               </h2>
             </div>
@@ -172,7 +256,6 @@ export default function HomePage() {
               View all <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-
           {isProjectsLoading ? (
             <div className="flex justify-center items-center py-20">
               <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -184,7 +267,6 @@ export default function HomePage() {
               "grid-cols-1 md:grid-cols-3"
             }`}>
               {displayProjects.map((project: any, i: number) => {
-                console.log("Image URL:", project.coverImage);
                 return (
                 <motion.div
                   key={project._id || project.id}
@@ -197,7 +279,7 @@ export default function HomePage() {
                     <div className={`relative overflow-hidden rounded-2xl bg-muted ${displayProjects.length === 1 ? "aspect-video" : "aspect-[4/3]"}`}>
                       <img
                         src={getImageUrl(project.coverImage)}
-                        alt={`Premium interior design project: ${project.title} by Deep Interior`}
+                        alt={`${project.title} for sale in ${project.location}, Ahmedabad`}
                         loading="lazy"
                         decoding="async"
                         onError={(e) => { e.currentTarget.style.display = "none" }}
@@ -224,6 +306,7 @@ export default function HomePage() {
               })}
             </div>
           )}
+
         </div>
       </section>
 
@@ -260,13 +343,22 @@ export default function HomePage() {
                     </div>
                     <p className="text-sm text-foreground/80 leading-relaxed italic flex-grow">"{t.message}"</p>
                     <div className="flex items-center gap-3 mt-6">
-                      {t.profile_photo_url ? (
-                        <img src={t.profile_photo_url} alt={t.name} className="w-9 h-9 rounded-full object-cover" loading="lazy" />
-                      ) : (
-                        <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center shrink-0">
-                          <span className="text-primary-foreground text-xs font-medium">{userInitials}</span>
-                        </div>
-                      )}
+                      <img 
+                        src={t.profile_photo_url || "/"} 
+                        alt={`${t.name} — Client at Deep Interior`} 
+                        className={`w-9 h-9 rounded-full object-cover shrink-0 ${t.profile_photo_url ? 'block' : 'hidden'}`} 
+                        loading="lazy" 
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          const fallback = e.currentTarget.parentElement?.querySelector('.avatar-fallback');
+                          if (fallback) (fallback as HTMLElement).style.display = 'flex';
+                        }} 
+                      />
+                      <div 
+                        className={`avatar-fallback w-9 h-9 rounded-full bg-primary items-center justify-center shrink-0 ${t.profile_photo_url ? 'hidden' : 'flex'}`}
+                      >
+                        <span className="text-primary-foreground text-xs font-medium">{userInitials}</span>
+                      </div>
                       <span className="text-sm text-foreground">{t.name}</span>
                     </div>
                   </motion.div>
@@ -277,11 +369,114 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* SEO Content Section */}
+      <section className="py-20 border-t border-border/50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto space-y-6 text-foreground/80 leading-relaxed text-sm md:text-base">
+            <h2 className="font-display text-2xl md:text-3xl text-foreground mb-4">Premier Interior Design in Ahmedabad</h2>
+            <p>
+              Deep Interior is your premier partner for transforming spaces across Ahmedabad and Gujarat. Whether you are looking to design a luxurious bungalow in Science City, a modern commercial workspace in Sola, or perfectly optimize your new 3BHK family flat, our expertise covers every aspect of residential and commercial interior design.
+            </p>
+            <p>
+              Ahmedabad is rapidly evolving, with homes and businesses requiring smarter, more elegant design solutions. We specialize in bringing high-value aesthetic transformations—from detailed false ceilings and intelligent lighting to bespoke modular kitchens and custom furniture. We help our clients shape beautiful spaces across Gujarat's expanding horizons.
+            </p>
+            <p>
+              Our turnkey interior and architectural services are seamlessly handled from concept to handover. When you choose Deep Interior, you gain access to a dedicated team capable of transforming any space into your dream home or a highly functional office. Our end-to-end solutions include material selection, custom layouts, and comprehensive project execution, ensuring that your space perfectly reflects your lifestyle.
+            </p>
+            <p>
+              Whether you are a local homeowner elevating your living space or a business establishing a dynamic office, we provide transparent, tailored, and professional guidance. Let us help you unlock the true potential of your property and turn it into a beautifully crafted space.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ & Areas We Serve Section */}
+      <section className="py-24 bg-card border-y border-border">
+        <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20">
+          <div>
+            <h2 className="font-display text-4xl text-foreground mb-8">Interior Design Across Ahmedabad & Gujarat</h2>
+            <div className="prose prose-zinc dark:prose-invert text-muted-foreground text-lg">
+              <p className="mb-4">
+                Deep Interior brings thoughtful, premium interior design to every corner 
+                of Ahmedabad. We work across Bopal, South Bopal, Prahlad Nagar, Satellite, 
+                SG Highway, Thaltej, Bodakdev, Vastrapur, Navrangpura, Gota, Chandkheda, 
+                New Ranip, Maninagar, and Nikol — whether you're furnishing a new 2BHK flat 
+                or redesigning a 4BHK bungalow.
+              </p>
+              <p>
+                Beyond Ahmedabad, our team takes on interior design projects across Gujarat 
+                including Gandhinagar, Surat, Vadodara, and Rajkot. We manage everything 
+                from concept to completion so you don't have to worry about a thing.
+              </p>
+            </div>
+          </div>
+          <div>
+            <h2 className="font-display text-4xl text-foreground mb-8">Frequently Asked Questions</h2>
+            <div className="flex flex-col gap-4 max-w-xl">
+              <details className="group border-b border-border pb-4">
+                <summary className="font-medium text-lg cursor-pointer flex justify-between items-center text-foreground">
+                  What interior design services does Deep Interior offer in Ahmedabad?
+                  <span className="text-xl group-open:rotate-45 transition-transform duration-300">+</span>
+                </summary>
+                <p className="mt-4 text-muted-foreground leading-relaxed">
+                  Deep Interior offers complete residential and commercial interior design services in Ahmedabad including living room design, bedroom interiors, modular kitchens, false ceiling, wallpaper, office interiors, and full turnkey interior projects across Gujarat.
+                </p>
+              </details>
+              <details className="group border-b border-border pb-4">
+                <summary className="font-medium text-lg cursor-pointer flex justify-between items-center text-foreground">
+                  How much does interior design cost in Ahmedabad?
+                  <span className="text-xl group-open:rotate-45 transition-transform duration-300">+</span>
+                </summary>
+                <p className="mt-4 text-muted-foreground leading-relaxed">
+                  Interior design costs in Ahmedabad typically range from ₹800 to ₹3,000 per sq ft depending on the scope, materials, and finishes chosen. Deep Interior offers packages for all budgets — contact us for a free consultation and quote.
+                </p>
+              </details>
+              <details className="group border-b border-border pb-4">
+                <summary className="font-medium text-lg cursor-pointer flex justify-between items-center text-foreground">
+                  Does Deep Interior work across all areas of Ahmedabad?
+                  <span className="text-xl group-open:rotate-45 transition-transform duration-300">+</span>
+                </summary>
+                <p className="mt-4 text-muted-foreground leading-relaxed">
+                  Yes, Deep Interior serves all major areas of Ahmedabad including Bopal, South Bopal, Prahlad Nagar, Satellite, Thaltej, SG Highway, Bodakdev, Vastrapur, Gota, Chandkheda, Navrangpura, Maninagar, Nikol, and surrounding areas.
+                </p>
+              </details>
+              <details className="group border-b border-border pb-4">
+                <summary className="font-medium text-lg cursor-pointer flex justify-between items-center text-foreground">
+                  Does Deep Interior take projects outside Ahmedabad in Gujarat?
+                  <span className="text-xl group-open:rotate-45 transition-transform duration-300">+</span>
+                </summary>
+                <p className="mt-4 text-muted-foreground leading-relaxed">
+                  Yes, we take on interior design projects across Gujarat including Gandhinagar, Surat, Vadodara, and Rajkot. Contact us to discuss your project location.
+                </p>
+              </details>
+              <details className="group border-b border-border pb-4">
+                <summary className="font-medium text-lg cursor-pointer flex justify-between items-center text-foreground">
+                  How long does a complete home interior design project take in Ahmedabad?
+                  <span className="text-xl group-open:rotate-45 transition-transform duration-300">+</span>
+                </summary>
+                <p className="mt-4 text-muted-foreground leading-relaxed">
+                  A typical 2BHK or 3BHK home interior project in Ahmedabad takes 45 to 90 days from design approval to handover, depending on the scope and material availability. Deep Interior provides a clear timeline before work begins.
+                </p>
+              </details>
+              <details className="group border-b border-border pb-4">
+                <summary className="font-medium text-lg cursor-pointer flex justify-between items-center text-foreground">
+                  Does Deep Interior provide modular kitchen design in Ahmedabad?
+                  <span className="text-xl group-open:rotate-45 transition-transform duration-300">+</span>
+                </summary>
+                <p className="mt-4 text-muted-foreground leading-relaxed">
+                  Yes, modular kitchen design and installation is one of our core services in Ahmedabad. We offer L-shaped, U-shaped, parallel, and island kitchen designs with a choice of finishes, shutters, and hardware to suit your budget.
+                </p>
+              </details>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="py-32 bg-card">
+      <section className="py-32 bg-background">
         <div className="container mx-auto px-6 text-center">
           <h2 className="font-display text-4xl md:text-7xl tracking-display text-foreground">
-            If You Can Dream It,<br />We Can Make It
+            If You Can Dream It. <br />We Can Make It
           </h2>
           <p className="text-muted-foreground mt-6 max-w-md mx-auto leading-relaxed">
             Whether it's a home, office, or commercial space — Deep Interior brings your vision to life with expert design and execution.

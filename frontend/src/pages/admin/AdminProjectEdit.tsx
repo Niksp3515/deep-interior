@@ -273,14 +273,39 @@ export default function AdminProjectEdit() {
                                 </div>
                               </>
                              ) : fileType === 'pdf' || fileType === 'document' ? (
-                               <div className="w-full h-full flex flex-col items-center justify-center bg-card">
+                               <div 
+                                  className="w-full h-full flex flex-col items-center justify-center bg-card"
+                                  onClick={async (e) => {
+                                    e.stopPropagation();
+                                    try {
+                                      const response = await fetch(getImageUrl(m.mediaUrl));
+                                      const blob = await response.blob();
+                                      const url = window.URL.createObjectURL(blob);
+                                      const link = document.createElement('a');
+                                      link.href = url;
+                                      link.download = m.originalFileName || 'document.pdf';
+                                      document.body.appendChild(link);
+                                      link.click();
+                                      document.body.removeChild(link);
+                                      window.URL.revokeObjectURL(url);
+                                    } catch (err) {
+                                      const link = document.createElement('a');
+                                      link.href = getImageUrl(m.mediaUrl);
+                                      link.download = m.originalFileName || 'document.pdf';
+                                      link.target = '_blank';
+                                      document.body.appendChild(link);
+                                      link.click();
+                                      document.body.removeChild(link);
+                                    }
+                                  }}
+                               >
                                   <FileText className="w-8 h-8 text-muted-foreground mb-1 flex-shrink-0"/>
                                   <span className="text-[10px] font-medium text-muted-foreground text-center truncate w-full px-2" title={m.originalFileName || m.mediaUrl.split('/').pop()}>
                                     {m.originalFileName || (m.mediaUrl.split('/').pop())}
                                   </span>
                                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center z-10 text-white hover:text-primary transition-colors pointer-events-none">
                                      <Play className="w-6 h-6 mb-1" />
-                                     <span className="text-[10px] text-center px-1">Secure View</span>
+                                     <span className="text-[10px] text-center px-1">Download</span>
                                   </div>
                                </div>
                              ) : (
@@ -333,14 +358,39 @@ export default function AdminProjectEdit() {
                                 </div>
                               </>
                              ) : fileType === 'pdf' || fileType === 'document' ? (
-                               <div className="w-full h-full flex flex-col items-center justify-center bg-card">
+                               <div 
+                                  className="w-full h-full flex flex-col items-center justify-center bg-card"
+                                  onClick={async (e) => {
+                                    e.stopPropagation();
+                                    try {
+                                      const response = await fetch(getImageUrl(m.mediaUrl));
+                                      const blob = await response.blob();
+                                      const url = window.URL.createObjectURL(blob);
+                                      const link = document.createElement('a');
+                                      link.href = url;
+                                      link.download = m.originalFileName || 'document.pdf';
+                                      document.body.appendChild(link);
+                                      link.click();
+                                      document.body.removeChild(link);
+                                      window.URL.revokeObjectURL(url);
+                                    } catch (err) {
+                                      const link = document.createElement('a');
+                                      link.href = getImageUrl(m.mediaUrl);
+                                      link.download = m.originalFileName || 'document.pdf';
+                                      link.target = '_blank';
+                                      document.body.appendChild(link);
+                                      link.click();
+                                      document.body.removeChild(link);
+                                    }
+                                  }}
+                               >
                                   <FileText className="w-8 h-8 text-muted-foreground mb-1 flex-shrink-0"/>
                                   <span className="text-[10px] font-medium text-muted-foreground text-center truncate w-full px-2" title={m.originalFileName || m.mediaUrl.split('/').pop()}>
                                     {m.originalFileName || (m.mediaUrl.split('/').pop())}
                                   </span>
                                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center z-10 text-white hover:text-primary transition-colors pointer-events-none">
                                      <Play className="w-6 h-6 mb-1" />
-                                     <span className="text-[10px] text-center px-1">Secure View</span>
+                                     <span className="text-[10px] text-center px-1">Download</span>
                                   </div>
                                </div>
                              ) : (

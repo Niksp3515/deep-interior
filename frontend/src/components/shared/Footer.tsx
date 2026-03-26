@@ -14,7 +14,7 @@ export default function Footer() {
           {/* Column 1: Brand */}
           <div className="flex flex-col">
             <div className="mb-6 flex items-start -mt-4">
-              <img src="/01-01.png" alt="Deep Interior Logo" className="w-[140px] md:w-[160px] h-auto object-contain object-left pointer-events-none" />
+              <img src="/01-01.webp" alt="Deep Interior — Best Interior Designer Ahmedabad" className="w-[140px] md:w-[160px] h-auto object-contain object-left pointer-events-none" />
             </div>
             
             <div className="space-y-3 text-[15px] text-slate-500 mb-6 mt-2">
@@ -39,6 +39,7 @@ export default function Footer() {
                 href="https://www.instagram.com/interiordeep" 
                 target="_blank" 
                 rel="noopener noreferrer"
+                aria-label="Follow Deep Interior on Instagram"
                 className="w-11 h-11 rounded-full bg-[#e8ebea] flex items-center justify-center text-[#556b60] hover:text-white hover:bg-pink-600 transition-colors shadow-sm"
               >
                 <Instagram className="w-[20px] h-[20px]" />
@@ -47,6 +48,7 @@ export default function Footer() {
                 href="https://www.facebook.com/share/1B3UALzH4S/" 
                 target="_blank" 
                 rel="noopener noreferrer"
+                aria-label="Follow Deep Interior on Facebook"
                 className="w-11 h-11 rounded-full bg-[#e8ebea] flex items-center justify-center text-[#556b60] hover:text-white hover:bg-blue-600 transition-colors shadow-sm"
               >
                 <Facebook className="w-[20px] h-[20px]" />
@@ -120,11 +122,11 @@ export default function Footer() {
         {/* Copyright */}
         <div className="pt-8 border-t border-slate-200/80 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[14px] text-slate-400">
-            © {new Date().getFullYear()} Deep Interior. All rights reserved.
+            © 2025 Deep Interior. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <span className="text-[14px] text-slate-400 cursor-pointer hover:text-slate-600 transition-colors">Privacy Policy</span>
-            <span className="text-[14px] text-slate-400 cursor-pointer hover:text-slate-600 transition-colors">Terms of Service</span>
+            <Link to="/privacy" className="text-[14px] text-slate-400 cursor-pointer hover:text-slate-600 transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="text-[14px] text-slate-400 cursor-pointer hover:text-slate-600 transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

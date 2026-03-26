@@ -115,7 +115,7 @@ export default function CategoryPage() {
                     {fileType === "video" ? (
                       <>
                         {media.thumbnailKey ? (
-                          <img src={getThumbnailUrl(media.thumbnailKey)} alt="Video thumbnail" className="absolute inset-0 w-full h-full object-cover opacity-80" loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                          <img src={getThumbnailUrl(media.thumbnailKey)} alt={media.caption || `${categoryName} video tour in Ahmedabad`} className="absolute inset-0 w-full h-full object-cover opacity-80" loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                         ) : (
                           <VideoThumbnailFallback src={getImageUrl(media.mediaUrl)} className="absolute inset-0 w-full h-full object-cover opacity-80" originalFileName={media.originalFileName} />
                         )}
@@ -136,7 +136,7 @@ export default function CategoryPage() {
                   ) : (
                       <img
                         src={getImageUrl(media.mediaUrl)}
-                        alt={media.caption || `${categoryName} design`}
+                        alt={media.caption || `${categoryName} interior design in Ahmedabad, Gujarat`}
                         loading="lazy"
                         decoding="async"
                         draggable={false}

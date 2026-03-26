@@ -61,7 +61,7 @@ export default function VideoThumbnailFallback({ src, className, originalFileNam
     return (
       <img 
         src={thumbnailDataUrl} 
-        alt="Generated Thumbnail" 
+        alt="Property video tour Ahmedabad" 
         className={className} 
         loading="lazy" 
       />

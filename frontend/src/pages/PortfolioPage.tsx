@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -15,7 +15,19 @@ export default function PortfolioPage() {
     queryKey: ['projects'],
     queryFn: () => fetchProjects(),
     staleTime: 1000 * 60 * 5, // 5 minute local cache to prevent redundant fetches
+    retry: 1, // Only retry once to avoid infinite spinning
   });
+
+  const [isTimeout, setIsTimeout] = useState(false);
+  
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (isLoading && projects.length === 0) {
+        setIsTimeout(true);
+      }
+    }, 5000); // 5 second timeout
+    return () => clearTimeout(timeout);
+  }, [isLoading, projects.length]);
 
   const locations = useMemo(() => {
     const locs = new Set(projects.map((p: any) => p.location));
@@ -27,34 +39,26 @@ export default function PortfolioPage() {
     return projects.filter((p: any) => p.location === activeLocation);
   }, [activeLocation, projects]);
 
-  process.env.NODE_ENV === "development" && console.log("Projects:", projects);
+  // Development logs removed
 
   return (
     <main className="pt-24 pb-32">
       <SEO 
-        title="Best Interior Design Projects in Ahmedabad & Gujarat | Deep Interior Portfolio"
-        description="Explore the luxury interior design portfolio of Deep Interior across Gujarat, featuring premier residential, commercial, bedroom, and modular kitchen projects in Ahmedabad, Sola, and Science City."
+        title="Interior Design Portfolio — Projects in Ahmedabad & Gujarat | Deep Interior"
+        description="Browse our completed interior design and furniture projects in Ahmedabad, Gandhinagar, and across Gujarat. From bungalows to 2BHK and 3BHK flats."
         keywords="best interior designer portfolio Ahmedabad, luxury home interiors Gujarat, residential interior projects Ahmedabad, commercial interior design Gujarat, top interior decorators Sola"
-        url="https://deepinterior.com/portfolio"
+        url="https://deep-interior.vercel.app/portfolio"
+        schema={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://deep-interior.vercel.app/"},
+            {"@type": "ListItem", "position": 2, "name": "Portfolio", "item": "https://deep-interior.vercel.app/portfolio"}
+          ]
+        })}
       />
       
       <div className="container mx-auto px-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.2, 0, 0, 1] }}
-          className="max-w-2xl"
-        >
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Portfolio</p>
-          <h1 className="font-display text-5xl md:text-7xl tracking-display text-foreground mt-4 leading-[0.95]">
-            Our Completed Projects
-          </h1>
-          <p className="text-foreground/70 mt-6 text-lg leading-relaxed">
-            Explore our work across Gujarat — from concept renders to finished spaces.
-          </p>
-        </motion.div>
-
         <div className="flex flex-col lg:flex-row gap-12 mt-16">
           {/* Sidebar Filters */}
           <motion.aside
@@ -64,9 +68,9 @@ export default function PortfolioPage() {
             className="lg:w-64 shrink-0"
           >
             <div className="lg:sticky lg:top-28">
-              <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">
+              <h2 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">
                 Filter by Location
-              </h3>
+              </h2>
               <div className="flex flex-row lg:flex-col gap-2">
                 <button
                   onClick={() => setActiveLocation(null)}
@@ -118,9 +122,12 @@ export default function PortfolioPage() {
                     </div>
                   ))}
                 </div>
-              ) : error ? (
-                <div className="text-center py-24 text-destructive">
-                  Error loading projects.
+              ) : (error || isTimeout) ? (
+                <div className="text-center py-24 text-muted-foreground bg-card rounded-2xl border border-border">
+                  <p className="mb-4 text-lg">Projects are currently unavailable.</p>
+                  <a href="https://wa.me/919879624474" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2">
+                    Contact us on WhatsApp to see our work <ArrowRight className="w-4 h-4" />
+                  </a>
                 </div>
               ) : (
                 <motion.div
@@ -132,7 +139,6 @@ export default function PortfolioPage() {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
               >
                 {filtered.map((project: any, i: number) => {
-                  console.log("Image URL:", project.coverImage);
                   return (
                   <motion.div
                     key={project._id}
@@ -144,7 +150,7 @@ export default function PortfolioPage() {
                       <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-muted">
                         <img
                           src={getImageUrl(project.coverImage)}
-                          alt={project.title}
+                          alt={`${project.title} for sale in ${project.location}, Ahmedabad`}
                           loading="lazy"
                           decoding="async"
                           onError={(e) => { e.currentTarget.style.display = "none" }}
@@ -159,9 +165,9 @@ export default function PortfolioPage() {
                       </div>
 
                       <div className="mt-5">
-                        <h3 className="font-display text-2xl tracking-display text-foreground group-hover:text-primary transition-brand">
+                        <h2 className="font-display text-2xl tracking-display text-foreground group-hover:text-primary transition-brand">
                           {project.title}
-                        </h3>
+                        </h2>
                         <div className="flex items-center gap-4 mt-2">
                           <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                             <MapPin className="w-3 h-3" /> {project.location}

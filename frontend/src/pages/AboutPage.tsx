@@ -5,10 +5,9 @@ export default function AboutPage() {
   return (
     <main className="pt-24 pb-24">
       <SEO 
-        title="About Deep Interior | Best Interior Designer in Ahmedabad & Gujarat"
-        description="Deep Interior Designers and Architects is the best interior designer in Ahmedabad for luxury residential interior design, architecture, and turnkey home renovations across Sola, Science City, and Gujarat."
-        keywords="best interior designer in Ahmedabad, luxury interior design company Gujarat, turnkey interior designers Ahmedabad, office interior design Ahmedabad, home renovations Ahmedabad, interior designer in Gujarat"
-        url="https://deepinterior.com/about"
+        title="About Deep Interior — Interior Designers in Ahmedabad"
+        description="Learn about Deep Interior, Ahmedabad's trusted interior design and custom furniture company with 500+ completed projects across Gujarat."
+        url="https://deep-interior.vercel.app/about"
       />
       <div className="container mx-auto px-6 max-w-3xl">
         <motion.div
@@ -17,8 +16,8 @@ export default function AboutPage() {
           transition={{ duration: 0.6, ease: [0.2, 0, 0, 1] }}
         >
           <p className="text-xs uppercase tracking-widest text-muted-foreground">About</p>
-          <h1 className="font-display text-4xl md:text-6xl tracking-display text-foreground mt-3 leading-[0.95]">
-            Design Is an Expression<br />of Values
+          <h1 className="font-display text-5xl md:text-7xl tracking-display text-foreground mt-4 leading-[0.95]">
+            About Deep Interior — Ahmedabad's Trusted Design Studio
           </h1>
           <div className="mt-12 space-y-6 text-foreground/80 leading-relaxed">
             <p>
@@ -29,6 +28,16 @@ export default function AboutPage() {
             </p>
             <p>
               With years of experience in the industry, Deep Interior has built a reputation for quality craftsmanship, attention to detail, and client satisfaction across Ahmedabad and Gujarat.
+            </p>
+            <h2 className="font-display text-2xl text-foreground mt-10 mb-4 pt-6 border-t border-border/40">Our Story in Gujarat's Interior Design World</h2>
+            <p>
+              Established with a vision to redefine the interior design landscape of Gujarat, Deep Interior is an interior design and furniture company based in Ahmedabad. Our journey began over a decade ago with a simple mission: to craft beautiful, highly functional spaces. Over the years, we have expanded our footprint, delivering extraordinary projects across Ahmedabad, Gandhinagar, Surat, Vadodara, and surrounding areas.
+            </p>
+            <p>
+              Our unique approach bridges the gap between architectural vision and finished, liveable art. We bring unmatched expertise in residential and commercial interior design, alongside world-class custom furniture design and manufacturing. Our team handles every aspect of the process to offer true turnkey renovation and interior services, ensuring every space perfectly reflects our client's lifestyle and brand.
+            </p>
+            <p>
+              By maintaining an unwavering commitment to quality craftsmanship, personalized design, and timely delivery, we have successfully completed over 500 interior projects. Through ethical design practices and an obsession with detail, we continue to deliver smiles to families and businesses across Gujarat's vibrant design market.
             </p>
           </div>
 

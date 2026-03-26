@@ -118,10 +118,9 @@ export default function LightboxGallery({ media, initialIndex, onClose }: Lightb
                   className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl bg-black"
                 />
               ) : getFileType(currentMedia.mediaUrl, currentMedia.mediaType) === "document" ? (
-                <div className="w-[85vw] max-w-4xl h-[75vh] bg-card rounded-lg flex flex-col items-center justify-center shadow-2xl overflow-hidden relative">
-                   <div className="absolute inset-0 z-50 pointer-events-none" /> {/* Overlay to trap right clicks */}
+                <div className="w-[90vw] max-w-6xl h-[85vh] bg-card rounded-lg flex flex-col items-center justify-center shadow-2xl overflow-hidden relative">
                    <iframe 
-                      src={`https://docs.google.com/gview?url=${encodeURIComponent(getImageUrl(currentMedia.mediaUrl))}&embedded=true`}
+                      src={`${getImageUrl(currentMedia.mediaUrl)}#toolbar=0&navpanes=0&scrollbar=1`}
                       className="w-full h-full border-0"
                       title={currentMedia.caption || "Protected Document"}
                       onContextMenu={(e) => e.preventDefault()}
